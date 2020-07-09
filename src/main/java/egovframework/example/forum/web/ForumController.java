@@ -49,7 +49,10 @@ public class ForumController {
 				model.addAttribute("forumView", forumView);
 				
 				System.out.println(forumView);
-			} 
+			} else {																// 글 수정 일 떄
+				model.addAttribute("forumEdit", paramMap);
+
+			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

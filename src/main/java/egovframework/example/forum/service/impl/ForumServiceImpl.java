@@ -41,9 +41,13 @@ public class ForumServiceImpl implements ForumService {
 		String editType = (String) paramMap.get("editType");
 
 		if (editType.equals("insert")) {
-			forumMapper.InsertForumServiceList(paramMap);
+			forumMapper.insertForumServiceList(paramMap);
+		
 		} else if (editType.equals("update")) {
-			forumMapper.UpdateForumServiceList(paramMap);
+			forumMapper.updateForumServiceList(paramMap);
+		
+		} else if (editType.equals("delete")) {
+			forumMapper.deleteForumServiceList(paramMap);
 		}
 		
 		

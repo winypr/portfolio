@@ -11,10 +11,12 @@ public interface ForumMapper {
 
 	List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception;
 
-	void InsertForumServiceList(Map<String, Object> paramMap) throws Exception;
+	void insertForumServiceList(Map<String, Object> paramMap) throws Exception;
 
 	void updateForumViewsServiceList(Map<String, Object> paramMap) throws Exception;
 
-	void UpdateForumServiceList(Map<String, Object> paramMap) throws Exception;
+	void updateForumServiceList(Map<String, Object> paramMap) throws Exception;
+
+	void deleteForumServiceList(Map<String, Object> paramMap) throws Exception;
 
 }

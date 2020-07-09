@@ -53,6 +53,15 @@
 		 where FM_NO = #{fmNo}
 		
 	 </update>
+	 
+	 
+	 <delete id="deleteForumServiceList" parameterType="egovMap">
+	
+		DELETE
+		 FROM t_portfolio_fm
+		 WHERE FM_NO = #{fmNo}
+		
+	 </delete>
 
 	 <update id="updateForumViewsServiceList" parameterType="egovMap">
 	 <if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">

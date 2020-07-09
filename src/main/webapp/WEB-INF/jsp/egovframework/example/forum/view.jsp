@@ -9,38 +9,82 @@
 
 $(function() {
 	console.log("${forumView}")
-
+	console.log("${forumView[0]}")
+	console.log("${forumView[0]}")
 })
-var dataForum = {
-	fmNo : "",
-	fmWriter : "",
-	fmSubj : "",
-	fmContent : ""
-		
-}
+
 
 function dataFn(){
-		<c:forEach var="forumView" items="${forumView}" varStatus="status">	
-			this.fmNo = "${forumView.fmNo}"
-			this.fmWriter = "${forumView.fmWriter}"
-			this.fmSubj = "${forumView.fmSubj}"
-			this.fmContent = "${forumView.fmContent}"
-		</c:forEach>	
+	
+		$("#fmEdit").append("<input type='hidden'  name='fmNo' 		value=<c:out value='${forumView[0].fmNo}'/> />");
+		$("#fmEdit").append("<input type='hidden'  name='fmWriter' 	value=<c:out value='${forumView[0].fmWriter}'/> />");
+		$("#fmEdit").append("<input type='hidden'  name='fmSubj' 	value=<c:out value='${forumView[0].fmSubj}'/> />");
+		$("#fmEdit").append("<input type='hidden'  name='fmContent' value=<c:out value='${forumView[0].fmContent}'/> />");
+		$("#fmEdit").append("<input type='hidden'  name='editType' 	value=''/>");
 }
 
-
-function editfn() {
-	dataFn.call(this);
-	 $("#fmEdit").attr("action", "/forum/write.do")
+var clickC = {
 		
-	 $("#data").val(dataForum)
-	 $("#fmEdit").submit(); 
+		editFn : function() {
+			dataFn();
+			 $("#fmEdit").attr("action", "/forum/write.do")
+			 $("#fmEdit").submit(); 
+		},
+		
+		deleteFn : function() {
+			dataFn()
+			var deleteData = Cmmn.formToObj("fmEdit");
+			deleteData.editType="delete";
+			
+			 $.ajax({
+				url : "/ajaxForum.do" ,
+				data : deleteData,
+				dataType : "text",
+				type : "post",
+				success : function(d) {
+					if(d.result === "SUCCESS") alert("해당 글이 삭제되었습니다.")
+					location.href=("/forum.do")
+				}
+			});  
+			
+		}
 }
+
+
+/* var editHtml = {
+		
+		appendFn : function() {
+
+			<c:forEach var="forumView" items="${forumView}" varStatus="status">
+				
+				$("input[name=fmNo]").val("${forumView.fmNo}")
+				$("input[name=forumName]").val("${forumView.fmWriter}")
+				$("input[name=forumTitle]").val("${forumView.fmSubj}")
+				$("textarea[name=forumContent]").text("${forumView.fmContent}")
+			</c:forEach>
+			
+		}
+	} 
+
+	function editfn() {
+		
+		 $.ajax({
+			url : "/forum/edit.do" ,
+			//data : 	test.substring(1,test.length-1),
+			dataType : "text",
+			type : "post",
+			success : function(d) {
+			
+				$('.temp').children().remove()// console.log(d);
+				$('.temp').append(d);
+				editHtml.appendFn();
+			}
+		}); 
+		 
+	} */
+
 </script>
 <form id="fmEdit">
-<input type="hidden" id="data" name="data"/>
-
-
 </form>
 
 <div class="matter">
@@ -87,9 +131,10 @@ function editfn() {
 					</div>
 					<!-- Widget footer -->
 					<div class="widget-foot">
-						<div class="form-group">
+						<div class="form-group pull-right">
 									
-						<button type="button" class="btn btn-primary  pull-right" style="padding-top: 5px;" onclick="editfn()">수정</button>
+						<button type="button" class="btn btn-primary" style="padding-top: 5px;" onclick="clickC.editfn()">수정</button>
+						<button type="button" class="btn btn-danger" style="padding-top: 5px;" onclick="clickC.deleteFn()">삭제</button>
 						<div class="clearfix"></div>
 						</div>
 					

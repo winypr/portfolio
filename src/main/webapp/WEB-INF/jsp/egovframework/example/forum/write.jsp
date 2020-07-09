@@ -7,8 +7,8 @@
 
 <script>
 $(function() {
-	console.log("${forumView}")
-
+	console.log("${forumEdit}")
+	initFn();
 })
 
 var objData = {};
@@ -48,6 +48,14 @@ function checkfn() {
 	}
 	return true;	
 } 
+
+function initFn() {
+	
+	$("input[name=fmNo]").val("${forumEdit.fmEditNo}")
+	$("input[name=forumName]").val("${forumEdit.fmEditWriter}")
+	$("input[name=forumTitle]").val("${forumEdit.fmEditSubj}")
+	$("textarea[name=forumContent]").text("${forumEdit.fmEditContent}")
+}
 
 	
 </script>	
