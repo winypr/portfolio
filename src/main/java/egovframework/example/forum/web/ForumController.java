@@ -62,13 +62,6 @@ public class ForumController {
 		
 	}
 	
-	@RequestMapping(value = "/forum/edit.do")
-	public String initForumWrite() throws Exception {
-	
-	return "forum/write";
-		
-	}
-	
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajaxForum.do")
