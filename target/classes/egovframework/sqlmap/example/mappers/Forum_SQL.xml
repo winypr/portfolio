@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.forum.service.impl.ForumMapper">
+
+	<select id="selectForumServiceList" parameterType="egovMap" resultType="egovMap">
+		select 	FM_NO
+				, FM_SUBJ
+				, FM_WRITER
+				, FM_CONTENT
+				, FM_PSWORD
+				, DATE_FORMAT(FM_DATE,'%Y-%m-%d %H:%i') as FM_DATE
+				, FM_VIEWS
+		from  t_portfolio_fm
+		
+		<where>
+		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+			AND FM_NO = #{fmNo}
+		</if>
+		</where>
+		order by FM_NO desc
+	 </select>
+	 
+	 <insert id="InsertForumServiceList" parameterType="egovMap">
+	 
+	 	insert into t_portfolio_fm
+	 	(
+			 FM_SUBJ
+			, FM_WRITER
+			, FM_CONTENT
+			, FM_PSWORD
+			, FM_DATE
+	 	)
+	 		 	
+	 	value 
+	 	(
+	 	 #{forumTitle}
+	 	,#{forumName} 
+	 	,#{forumContent} 
+	 	,#{forumPassWord}
+	 	,NOW()
+	 	)
+
+	 </insert>
+
+	<update id="UpdateForumServiceList" parameterType="egovMap">
+	
+		 update t_portfolio_fm
+		 set FM_SUBJ = #{forumTitle}
+			, FM_WRITER = #{forumName} 
+			, FM_CONTENT = #{forumContent} 
+			, FM_PSWORD = #{forumPassWord}
+		 
+		 where FM_NO = #{fmNo}
+		
+	 </update>
+
+	 <update id="updateForumViewsServiceList" parameterType="egovMap">
+	 <if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+		 update t_portfolio_fm
+		 set FM_VIEWS = FM_VIEWS+1
+		 <where>
+			<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+				AND FM_NO = #{fmNo}
+			</if>
+		</where>
+	 </if>
+	 </update>
+	 
+</mapper>
