@@ -10,7 +10,7 @@
 				, FM_PSWORD
 				, DATE_FORMAT(FM_DATE,'%Y-%m-%d %H:%i') as FM_DATE
 				, FM_VIEWS
-		from  t_portfolio_fm
+		from  t_fm_post
 		
 		<where>
 		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
@@ -20,9 +20,9 @@
 		order by FM_NO desc
 	 </select>
 	 
-	 <insert id="InsertForumServiceList" parameterType="egovMap">
+	 <insert id="insertForumServiceList" parameterType="egovMap">
 	 
-	 	insert into t_portfolio_fm
+	 	insert into t_fm_post
 	 	(
 			 FM_SUBJ
 			, FM_WRITER
@@ -42,9 +42,9 @@
 
 	 </insert>
 
-	<update id="UpdateForumServiceList" parameterType="egovMap">
+	<update id="updateForumServiceList" parameterType="egovMap">
 	
-		 update t_portfolio_fm
+		 update t_fm_post
 		 set FM_SUBJ = #{forumTitle}
 			, FM_WRITER = #{forumName} 
 			, FM_CONTENT = #{forumContent} 
@@ -58,14 +58,14 @@
 	 <delete id="deleteForumServiceList" parameterType="egovMap">
 	
 		DELETE
-		 FROM t_portfolio_fm
+		 FROM t_fm_post
 		 WHERE FM_NO = #{fmNo}
 		
 	 </delete>
 
 	 <update id="updateForumViewsServiceList" parameterType="egovMap">
 	 <if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
-		 update t_portfolio_fm
+		 update t_fm_post
 		 set FM_VIEWS = FM_VIEWS+1
 		 <where>
 			<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
@@ -74,5 +74,58 @@
 		</where>
 	 </if>
 	 </update>
+	 
+	 <select id="selectForumReplyServiceList" parameterType="egovMap" resultType="egovMap">
+		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
+		select 	RP_NO
+				, RP_WRITER
+				, RP_CONTENT
+				, DATE_FORMAT(RP_DATE,'%Y-%m-%d %H:%i') as  RP_DATE
+		from  t_fm_reply
+		where FM_NO = #{fmNo}
+		
+		</if>
+		
+	 </select>
+	 
+	 <insert id="insertForumReplyServiceList" parameterType="egovMap">
+	 
+	 	insert into t_fm_reply
+	 	(
+			 FM_NO
+			, RP_WRITER
+			, RP_CONTENT
+			, RP_DATE
+	 	)
+	 		 	
+	 	value 
+	 	(
+	 	 #{fmNo}
+	 	,'SYSTEM'
+	 	,#{rpContent} 
+	 	,NOW()
+	 	)
+
+	 </insert>
+	 
+	 <update id="updateForumReplyServiceList" parameterType="egovMap">
+	
+		 update t_fm_reply
+		 set FM_NO = #{fmNo} 
+			, RP_CONTENT = #{rpContent} 
+		 
+		 where RP_NO = #{rpNo}
+		
+	 </update>
+	 
+	  <delete id="deleteForumReplyServiceList" parameterType="egovMap">
+	
+		DELETE
+		 FROM t_fm_reply
+		 WHERE RP_NO = #{rpNo}
+		
+	 </delete>
+	 
+	 
 	 
 </mapper>

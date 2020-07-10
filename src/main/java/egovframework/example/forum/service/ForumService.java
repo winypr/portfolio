@@ -11,4 +11,8 @@ public interface ForumService {
 
 	String ajaxForumServiceList(Map<String, Object> paramMap) throws Exception;
 
+	String ajaxForumReplyServiceList(Map<String, Object> paramMap) throws Exception;
+
+	List<EgovMap> selectForumReplyServiceList(Map<String, Object> paramMap) throws Exception;
+
 }

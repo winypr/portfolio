@@ -7,7 +7,7 @@
 
 <script>
 $(function() {
-	console.log("${forumEdit}")
+	console.log("${forumView}")
 	initFn();
 })
 
@@ -30,7 +30,7 @@ function saveForum() {
 		success : function(d) {
 			
 			if(d.result === "SUCCESS") alert("저장되었습니다.");
-			
+			location.href = '/forum/view.do?fmNo='+objData.fmNo
 		}
 	});  	 
 }
@@ -51,10 +51,10 @@ function checkfn() {
 
 function initFn() {
 	
-	$("input[name=fmNo]").val("${forumEdit.fmEditNo}")
-	$("input[name=forumName]").val("${forumEdit.fmEditWriter}")
-	$("input[name=forumTitle]").val("${forumEdit.fmEditSubj}")
-	$("textarea[name=forumContent]").text("${forumEdit.fmEditContent}")
+	$("input[name=fmNo]").val("${forumView[0].fmNo}")
+	$("input[name=forumName]").val("${forumView[0].fmWriter}")
+	$("input[name=forumTitle]").val("${forumView[0].fmSubj}")
+	$("textarea[name=forumContent]").val("${forumView[0].fmContent}")
 }
 
 	

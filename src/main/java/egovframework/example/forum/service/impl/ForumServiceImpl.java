@@ -19,8 +19,6 @@ public class ForumServiceImpl implements ForumService {
 	private ForumMapper forumMapper;
 	
 	
-	
-	
 	@Override
 	public List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception {
 		// TODO Auto-generated method stub
@@ -55,6 +53,38 @@ public class ForumServiceImpl implements ForumService {
 		
 		return JsonUtil.MapToJson(resultMap);
 	}
+	
+	@Override
+	public List<EgovMap> selectForumReplyServiceList(Map<String, Object> paramMap) throws Exception {
+		// TODO Auto-generated method stub
+		return forumMapper.selectForumReplyServiceList(paramMap);
+	}
+
+	@Override
+	public String ajaxForumReplyServiceList(Map<String, Object> paramMap) throws Exception {
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		String editType = (String) paramMap.get("editType");
+
+		if (editType.equals("insert")) {
+			forumMapper.insertForumReplyServiceList(paramMap);
+		
+		} else if (editType.equals("update")) {
+			forumMapper.updateForumReplyServiceList(paramMap);
+		
+		} else if (editType.equals("delete")) {
+			forumMapper.deleteForumReplyServiceList(paramMap);
+		}
+		
+		
+		resultMap.put("result", "SUCCESS");
+		
+		return JsonUtil.MapToJson(resultMap);
+		
+	}
+
+	
 
 	
 	

@@ -19,4 +19,12 @@ public interface ForumMapper {
 
 	void deleteForumServiceList(Map<String, Object> paramMap) throws Exception;
 
+	List<EgovMap> selectForumReplyServiceList(Map<String, Object> paramMap) throws Exception;
+
+	void insertForumReplyServiceList(Map<String, Object> paramMap) throws Exception;;
+
+	void updateForumReplyServiceList(Map<String, Object> paramMap) throws Exception;;
+
+	void deleteForumReplyServiceList(Map<String, Object> paramMap) throws Exception;;
+
 }

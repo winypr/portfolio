@@ -41,16 +41,19 @@ public class ForumController {
 	
 	@RequestMapping(value = "/forum/{forumMenu}.do")
 	public String initForumMenu(@PathVariable Map<String, Object> map, @RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception {
-		
+		System.out.println("param" +paramMap );
 		try {
 			if (paramMap.containsKey("fmNo") == true && paramMap.get("fmNo")!="") {  // 글 보기 일 떄
 				
 				List<EgovMap> forumView =  forumService.selectForumServiceList(paramMap);
+				List<EgovMap> forumReplyView =  forumService.selectForumReplyServiceList(paramMap);
+				
 				model.addAttribute("forumView", forumView);
+				model.addAttribute("forumReplyView", forumReplyView);
 				
 				System.out.println(forumView);
 			} else {																// 글 수정 일 떄
-				model.addAttribute("forumEdit", paramMap);
+				model.addAttribute("forumView", paramMap);
 
 			}
 			
@@ -69,6 +72,14 @@ public class ForumController {
 		
 		System.out.println(paramMap);
 		return forumService.ajaxForumServiceList(paramMap);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/ajaxForumReply.do")
+	public String initajaxForumReply(@RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception {
+		
+		System.out.println(paramMap);
+		return forumService.ajaxForumReplyServiceList(paramMap);
 	}
 	
 	

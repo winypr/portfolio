@@ -8,11 +8,11 @@
 <script>
 
 $(function() {
-	console.log("${forumView}")
-	console.log("${forumView[0]}")
-	console.log("${forumView[0]}")
+	console.log("${forumView}");
+	console.log("${forumReplyView}");
+	dataFn();
+	menuClick();
 })
-
 
 function dataFn(){
 	
@@ -23,16 +23,37 @@ function dataFn(){
 		$("#fmEdit").append("<input type='hidden'  name='editType' 	value=''/>");
 }
 
+function menuClick() {
+	$(".post > .btn-primary").click(function() { // 수정
+		clickC.editPostFn()
+	})
+	
+	$(".post > .btn-danger").click(function() { // 삭제
+		clickC.deletePostFn()
+	})
+	
+	$(".reply > .btn-success").click(function() { // 등록
+		clickReplyC.saveReplyFn()
+	})
+	$ (".btn-group > .btn-xs").click(function(){
+		clickReplyC.deleteReplyFn($(this).parents('div').eq(1).children('input').val())
+		
+	})
+	
+}
+
+
+
 var clickC = {
 		
-		editFn : function() {
-			dataFn();
+		editPostFn : function() {
+			
 			 $("#fmEdit").attr("action", "/forum/write.do")
 			 $("#fmEdit").submit(); 
 		},
 		
-		deleteFn : function() {
-			dataFn()
+		deletePostFn : function() {
+			
 			var deleteData = Cmmn.formToObj("fmEdit");
 			deleteData.editType="delete";
 			
@@ -45,10 +66,58 @@ var clickC = {
 					if(d.result === "SUCCESS") alert("해당 글이 삭제되었습니다.")
 					location.href=("/forum.do")
 				}
-			});  
-			
+			});  	
 		}
 }
+var clickReplyC= {
+		
+		saveReplyFn : function() {
+			
+			if ($("#fmReply").val() ==="") {
+				alert("내용을 입력해주세요")
+				return
+			}
+			
+			var replyData = {
+				fmNo : "${forumView[0].fmNo}",
+				rpWriter : "system",
+				rpContent : $("#fmReply").val(), 
+				editType  : "insert" 
+			}	
+			
+			  $.ajax({
+				url : "/ajaxForumReply.do" ,
+				data : replyData,
+				dataType : "JSON",
+				type : "post",
+				success : function(d) {
+					if(d.result === "SUCCESS") alert("댓글을 등록했습니다.")
+					location.reload()
+				}
+			})
+		},
+		
+		deleteReplyFn : function(rpNo) {
+			var replyData = {
+					rpNo : rpNo,
+					editType  : "delete" 
+				}	
+			
+			 $.ajax({
+					url : "/ajaxForumReply.do" ,
+					data : replyData,
+					dataType : "JSON",
+					type : "post",
+					success : function(d) {
+						if(d.result === "SUCCESS") alert("댓글을 삭제했습니다.")
+						location.reload()
+					}
+				})
+		}
+}		
+
+			
+		
 
 
 /* var editHtml = {
@@ -130,17 +199,18 @@ var clickC = {
 						</div>
 					</div>
 					<!-- Widget footer -->
+					
 					<div class="widget-foot">
-						<div class="form-group pull-right">
+						<div class="form-group pull-right post">
 									
-						<button type="button" class="btn btn-primary" style="padding-top: 5px;" onclick="clickC.editfn()">수정</button>
-						<button type="button" class="btn btn-danger" style="padding-top: 5px;" onclick="clickC.deleteFn()">삭제</button>
+						<button type="button" class="btn btn-primary" style="padding-top: 5px;">수정</button>
+						<button type="button" class="btn btn-danger" style="padding-top: 5px;" >삭제</button>
 						<div class="clearfix"></div>
 						</div>
 					
 						<div class="col-md-12">
 							<!-- Widget -->
-							<div class="widget wviolet">
+							<div class="widget wviolet replyList">
 								<!-- Widget title -->
 								<div class="widget-head">
 									<div class="pull-left">댓글</div>
@@ -150,27 +220,44 @@ var clickC = {
 									</div>
 									<div class="clearfix"></div>
 								</div>
-
+							
 								<div class="widget-content">
 									<!-- Widget content -->
+										
 									<div class="padd">
-
-										<ul class="recent">
+									<form id="replyfrm">
+									
+										<div class="recent-meta">Posted on 25/1/2120 by Ashok</div>
+										<div class="text-area">
+											<!-- Add the "cleditor" to textarea to add CLeditor -->
+											<textarea name="input" id="fmReply" class="form-control col-lg-12" placeholder="댓글을 남겨주세요"></textarea>
+											<div class="clearfix"></div>
+										</div>
+										<div class="form-group reply" style="padding-top: 10px;">
+											<button type="button" class="btn btn-success pull-right" style="padding-top: 5px;" >등록</button>
+										</div>
+									<div class="clearfix"></div>
+									</form>
+									</div>
+										
+								</div>
+								
+							<div class="widget-foot">
+								
+								<c:forEach var="replyList" items="${forumReplyView}">
+								<ul class="recent">
 											<li>
 												<div class="recent-content">
-													<div class="recent-meta">Posted on 25/1/2120 by Ashok</div>
-													<div>Vivamus diam elit diam, consectetur fermentum
-														sed dapibus eget, Vivamus consectetur dapibus adipiscing
-														elit.
+													<input type="hidden" id="rpNo" name="rpNo" value="<c:out value='${replyList.rpNo}'/>"/>
+													<div class="recent-meta">Posted on <c:out value="${replyList.rpDate}"/> by <c:out value="${replyList.rpWriter}"/></div>
+													<div><c:out value="${replyList.rpContent}"/>
 													</div>
 													<div class="btn-group ">
-														<button class="btn btn-xs btn-success">
-															<i class="fa fa-check"></i>
-														</button>
+									
 														<button class="btn btn-xs btn-primary">
 															<i class="fa fa-pencil"></i>
 														</button>
-														<button class="btn btn-xs btn-danger">
+														<button class="btn btn-xs btn-danger" >
 															<i class="fa fa-times"></i>
 														</button>
 													</div>
@@ -179,26 +266,8 @@ var clickC = {
 												</div>
 											</li>
 										</ul>
-										<ul class="recent">
-											<li>
-												<div class="recent-content">
-													<div class="recent-meta">Posted on 25/1/2120 by Ashok</div>
-													<div>Vivamus diam elit diam, consectetur fermentum
-														sed dapibus eget, Vivamus consectetur dapibus adipiscing
-														elit.</div>
-													<div class="btn-group ">
-														<button class="btn btn-xs btn-primary">
-															<i class="fa fa-pencil"></i>
-														</button>
-														<button class="btn btn-xs btn-danger">
-															<i class="fa fa-times"></i>
-														</button>
-													</div>
-
-													<div class="clearfix"></div>
-												</div>
-											</li>
-										</ul>
+										</c:forEach>
+										
 										<ul class="pagination">
 											<li><a href="#">Prev</a></li>
 											<li><a href="#">1</a></li>
@@ -207,25 +276,9 @@ var clickC = {
 											<li><a href="#">4</a></li>
 											<li><a href="#">Next</a></li>
 										</ul>
+										<div class="clearfix"></div>
 									</div>
-
-									<div class="clearfix"></div>
-
-
-								</div>
-								<div class="widget-foot">
-									<div class="recent-meta">Posted on 25/1/2120 by Ashok</div>
-									<div class="text-area">
-										<!-- Add the "cleditor" to textarea to add CLeditor -->
-										<textarea name="input" class="form-control col-lg-12" placeholder="댓글을 남겨주세요"></textarea>
-										
-									</div>
-									<div class="form-group" style="padding-top: 5px;">
-										<button type="button" class="btn btn-success pull-right" style="padding-top: 5px;">등록</button>
-										
-										</div>
-									<div class="clearfix"></div>
-								</div>
+								
 							</div>
 						</div>
 						<div class="clearfix"></div>
