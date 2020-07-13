@@ -7,18 +7,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script>
-	$(function() {
-		// /* Date picker 초기화 */
-		
-			$('#datetimepicker1').datetimepicker({
-			  pickTime: false
-			});
-			
-			$('#datetimepicker2').datetimepicker({
-				  pickTime: false
-			});
-	
-	})
 	
 	var eventC = {
 

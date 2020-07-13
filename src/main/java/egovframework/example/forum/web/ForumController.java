@@ -70,7 +70,7 @@ public class ForumController {
 	@RequestMapping(value = "/ajaxForum.do")
 	public String initajaxForum(@RequestParam Map<String, Object> paramMap, ModelMap model) throws Exception {
 		
-		System.out.println(paramMap);
+		
 		return forumService.ajaxForumServiceList(paramMap);
 	}
 	

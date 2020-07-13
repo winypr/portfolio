@@ -29,3 +29,20 @@ var Cmmn = (function() {
 		
 	}	
 })();
+
+/**
+ * 초기화 공통 JS
+ */
+
+$(function() {
+	// /* Date picker 초기화 */
+	
+		$('#datetimepicker1').datetimepicker({
+		  pickTime: false
+		});
+		
+		$('#datetimepicker2').datetimepicker({
+			  pickTime: false
+		});
+
+})

@@ -26,6 +26,7 @@ function clickEventFn() {
 		$("#fmNo").val($(this).children().eq(0).text());
 		
 		fmSubmit.pageMoveFn("view"); 
+		
 	})	
 }
 	
@@ -33,7 +34,7 @@ function clickEventFn() {
 	
 		clickEventFn()
 	})
-	
+	 
 	
 </script>
 		<div class="temp">

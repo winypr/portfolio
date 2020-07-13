@@ -37,5 +37,7 @@
 		<!-- Widgets stylesheet -->
 		<link rel="stylesheet"href="bootstrap/css/widgets.css" > 
 		
+		<!-- my Custom CSS -->
+		<link rel="stylesheet" href="css/style.css" >  
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="#">

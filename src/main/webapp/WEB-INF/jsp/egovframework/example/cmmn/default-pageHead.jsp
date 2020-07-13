@@ -12,9 +12,10 @@ function pageHead() {
 	
 	var pageHeadName= "";
 	
-	if ($("li.active").text() !== "") pageHeadName = $("li.active").text();
+	
+	if ($("li.open").text() !== "") pageHeadName = $("li.open > a").text();
 	else if ($(".current").text() !== "") pageHeadName = $(".current").text();
-	else  pageHeadName = $(".open > a").text();
+	
 	
 	$(".bread-current").text(pageHeadName);	
 	$(".page-head > h2").text(pageHeadName);	

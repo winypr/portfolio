@@ -39,6 +39,10 @@
 	 	,#{forumPassWord}
 	 	,NOW()
 	 	)
+	 	
+	 	<selectKey resultType="int" keyProperty="fmNo">
+        SELECT LAST_INSERT_ID()
+    	</selectKey>
 
 	 </insert>
 

@@ -16,8 +16,8 @@ var objData = {};
 function saveForum() {
 
 	objData = Cmmn.formToObj("frmForum");
+	console.log(objData);
 	if (!checkfn()) return ;
-	console.log(objData.fmNo)
 	objData.editType = (objData.fmNo ==="") ? "insert": "update";
 	 
 	 $.ajax({
@@ -28,9 +28,11 @@ function saveForum() {
 		data : objData, 
 	
 		success : function(d) {
-			
+			console.log(d)
 			if(d.result === "SUCCESS") alert("저장되었습니다.");
-			location.href = '/forum/view.do?fmNo='+objData.fmNo
+			
+			var forumNo = (objData.fmNo !=="") ? objData.fmNo : d.fmNo
+			location.href = '/forum/view.do?fmNo='+ forumNo
 		}
 	});  	 
 }
@@ -41,7 +43,7 @@ function checkfn() {
 	
 	for (i in objData)
 	{
-		if (objData[i].length < 1 && i != "editType") {
+		if (objData[i].length < 1 && i != "editType" && i != "fmNo") {
 			alert ("빠진 부분이 있습니다. 값을 채워주세요");
 			return
 		}
