@@ -11,9 +11,5 @@ public class MainController {
 
 		return "main/main.tiles";
 	}
-	@RequestMapping(value = "/main/main.do")
-	public String initMain2() throws Exception {
-
-		return "main/main.tiles";
-	}
+	
 }

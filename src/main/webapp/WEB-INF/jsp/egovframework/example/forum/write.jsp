@@ -15,10 +15,15 @@ var objData = {};
 
 function saveForum() {
 
+	
 	objData = Cmmn.formToObj("frmForum");
-	console.log(objData);
-	if (!checkfn()) return ;
 	objData.editType = (objData.fmNo ==="") ? "insert": "update";
+	objData.forumName = "${sessionScope.sessionUN}"
+	console.log(objData)
+	
+	 if (!checkfn()) return ;
+	
+	
 	 
 	 $.ajax({
 	
@@ -34,7 +39,7 @@ function saveForum() {
 			var forumNo = (objData.fmNo !=="") ? objData.fmNo : d.fmNo
 			location.href = '/forum/view.do?fmNo='+ forumNo
 		}
-	});  	 
+	});  	
 }
 	
 function checkfn() {
@@ -43,7 +48,7 @@ function checkfn() {
 	
 	for (i in objData)
 	{
-		if (objData[i].length < 1 && i != "editType" && i != "fmNo") {
+		if (objData[i].length < 1 && i != "fmNo" ) {
 			alert ("빠진 부분이 있습니다. 값을 채워주세요");
 			return
 		}
@@ -81,13 +86,8 @@ function initFn() {
 											<form class="form-horizontal" id="frmForum" role="form">
 											<input type="hidden" id="editType" name="editType"/>
 											<input type="hidden" id="fmNo" name="fmNo"/>
+											<input type="hidden" id="forumName" name="forumName"/>
 											
-												<div class="form-group">
-												  <label class="col-md-2 control-label">작성자</label>
-												  <div class="col-md-8">
-													<input type="text" class="form-control" id="forumName" name="forumName" placeholder="이름을 입력해주세요">
-												  </div>
-												</div>
 												<div class="form-group">
 												  <label class="col-md-2 control-label">제목</label>
 												  <div class="col-md-8">
@@ -102,12 +102,6 @@ function initFn() {
 													<textarea class="form-control" rows="10" id="forumContent" name="forumContent" placeholder="내용을 입력해주세요"></textarea>
 												  </div>
 												</div>    
-											   <div class="form-group">
-												  <label class="col-md-2 control-label">비밀번호</label>
-												  <div class="col-md-8">
-													<input type="password" class="form-control" id="forumPassWord" name="forumPassWord" placeholder="비밀번호를 입력해주세요">
-												  </div>
-												</div>
 												<div class="form-group">
 												  <div class="col-md-offset-2 col-md-8" id="forumSave">
 													<button type="button" class="btn btn-success pull-right" onclick="saveForum()">저장</button>

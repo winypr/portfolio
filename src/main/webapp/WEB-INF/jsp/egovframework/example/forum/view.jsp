@@ -62,7 +62,7 @@ function createReplyFn(replyInfo) {
 	replyInfo.$that.append('<input type="hidden" id="rpEditNo" name="rpEditNo" value=' + replyInfo.rpEditNo +'>')
 	replyInfo.$that.append('<div class="recent-meta">Posted on 2020-07-12 15:59 by SYSTEM</div>')
 	replyInfo.$that.append('<div class="text-area"><textarea name="input" id="fmReplyEdit" class="form-control col-lg-12" placeholder="댓글을 남겨주세요">'+ replyInfo.editText +'</textarea><div class="clearfix"></div></div>')
-	replyInfo.$that.append('<div class="form-group reply" style="padding-top: 10px;"><button type="button" class="btn btn-success pull-right" style="padding-top: 5px;">등록</button></div>')
+	replyInfo.$that.append('<div class="form-group reply"><button type="button" class="btn btn-success pull-right" style="padding-top: 5px;">등록</button></div>')
 	replyInfo.$that.append('<div class="clearfix"></div>') 
 	
 }
@@ -233,8 +233,8 @@ var clickReplyC= {
 					<div class="widget-foot">
 						<div class=" pull-right fm-post">
 									
-							<button type="button" class="btn btn-primary" style="padding-top: 5px;">수정</button>
-							<button type="button" class="btn btn-danger" style="padding-top: 5px;" >삭제</button>
+							<button type="button" class="btn btn-primary">수정</button>
+							<button type="button" class="btn btn-danger" >삭제</button>
 							
 						</div>
 					<div class="clearfix"></div>
@@ -256,7 +256,7 @@ var clickReplyC= {
 										
 									<div class="padd">
 									
-										<div class="recent-meta">Posted on 25/1/2120 by Ashok</div>
+										<div class="recent-meta">Posted on 25/1/2120 by <c:out value='${sessionScope.sessionUN}'/></div>
 										<div class="text-area">
 											<!-- Add the "cleditor" to textarea to add CLeditor -->
 											<textarea name="input" id="fmReply" class="form-control col-lg-12" placeholder="댓글을 남겨주세요"></textarea>

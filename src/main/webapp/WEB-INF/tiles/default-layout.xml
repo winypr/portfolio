@@ -4,6 +4,7 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd"> 
   
 <tiles-definitions>
+	<!-- 기본 타일즈 -->
 	<definition name="layouts-tiles" 	template="/WEB-INF/jsp/egovframework/example/cmmn/default-layouts.jsp">
 	  	<put-attribute name="header"    	value="/WEB-INF/jsp/egovframework/example/cmmn/default-header.jsp" />
 	  	<put-attribute name="script"  	 	value="/WEB-INF/jsp/egovframework/example/cmmn/default-script.jsp" />
@@ -15,6 +16,18 @@
 	</definition>
 	
 	<definition name="*/*.tiles" extends="layouts-tiles">	
+	  	<put-attribute name="content"   	value="/WEB-INF/jsp/egovframework/example/{1}/{2}.jsp" />
+	</definition>
+	
+	<!-- 로그인 타일즈 -->
+	<definition name="login" 		template="/WEB-INF/jsp/egovframework/example/cmmn/login-layouts.jsp">
+	  	<put-attribute name="header"    	value="/WEB-INF/jsp/egovframework/example/cmmn/default-header.jsp" />
+	  	<put-attribute name="script"  	 	value="/WEB-INF/jsp/egovframework/example/cmmn/default-script.jsp" />
+	  	<put-attribute name="content"   	value="" />
+	  	
+	</definition>
+	
+	<definition name="*/*.login" extends="login">	
 	  	<put-attribute name="content"   	value="/WEB-INF/jsp/egovframework/example/{1}/{2}.jsp" />
 	</definition>
 		

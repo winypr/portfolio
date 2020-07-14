@@ -21,3 +21,27 @@
    background-color: #ccc;
 }
 
+.widget-foot .btn {
+	padding-top: 5px !important;
+}
+
+#todayModal {
+	display:none;
+	padding-right: 17px;
+}
+
+.tab-menu {
+	border-top-width: 1px; 
+	border-top-color: rgb(221, 221, 221); 
+	border-top-style: solid;
+}
+
+.sign-up .input-group[class*="col-"] {
+    float: none;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+
+
+

@@ -7,7 +7,6 @@
 				, FM_SUBJ
 				, FM_WRITER
 				, FM_CONTENT
-				, FM_PSWORD
 				, DATE_FORMAT(FM_DATE,'%Y-%m-%d %H:%i') as FM_DATE
 				, FM_VIEWS
 		from  t_fm_post
@@ -27,7 +26,6 @@
 			 FM_SUBJ
 			, FM_WRITER
 			, FM_CONTENT
-			, FM_PSWORD
 			, FM_DATE
 	 	)
 	 		 	
@@ -36,7 +34,6 @@
 	 	 #{forumTitle}
 	 	,#{forumName} 
 	 	,#{forumContent} 
-	 	,#{forumPassWord}
 	 	,NOW()
 	 	)
 	 	
@@ -52,7 +49,6 @@
 		 set FM_SUBJ = #{forumTitle}
 			, FM_WRITER = #{forumName} 
 			, FM_CONTENT = #{forumContent} 
-			, FM_PSWORD = #{forumPassWord}
 		 
 		 where FM_NO = #{fmNo}
 		

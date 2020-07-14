@@ -340,8 +340,7 @@ $(function(){
 
 
 	<div id="todayModal" class="modal fade in" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true"
-		style="display:none;" padding-right: 17px;">
+		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">

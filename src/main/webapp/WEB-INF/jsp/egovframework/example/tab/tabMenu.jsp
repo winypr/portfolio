@@ -182,7 +182,7 @@ $(function() {
 
 	<div class="widget ">
 	
-	<div class="widget-foot" style="border-top-width: 1px; border-top-color: rgb(221, 221, 221); border-top-style: solid;">
+	<div class="widget-foot tab-menu">
 	
 		<!-- Buttons -->
 		<div class="tab-button col-md-offset-4 col-md-12">

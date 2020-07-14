@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.login.service.impl.LoginMapper">
+ 
+	 <insert id="insertUserListServiceList" parameterType="egovMap">
+	 
+	 	INSERT INTO t_user_list
+	 	(
+			 UR_ID
+			, UR_NAME
+			, UR_EMAIL
+			, UR_PW
+	 	)
+	 		 	
+	 	VALUE 
+	 	(
+	 	 #{inputId}
+	 	,#{inputName} 
+	 	,#{inputEmail} 
+	 	,#{inputPW}
+	 	)
+	 	
+	 </insert>
+	 
+	 <select id="selectUserServiceList" parameterType="egovMap" resultType="int">
+	 	SELECT COUNT(*) as count
+	 	FROM t_user_list
+	 	WHERE UR_ID = #{urId}
+	 
+	 </select>
+	 
+	 <select id="selectUserLoginServiceList" parameterType="egovMap" resultType="map">
+	 	SELECT COUNT(*) as count
+	 		   ,UR_NAME	
+	 	FROM t_user_list
+	 	WHERE UR_ID = #{urId}
+	 	AND UR_PW = #{urPw}
+	 </select>
+	 
+</mapper>

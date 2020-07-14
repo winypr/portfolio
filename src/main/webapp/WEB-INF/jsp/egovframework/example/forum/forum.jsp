@@ -93,7 +93,7 @@ function clickEventFn() {
 										</ul>
 										<div class="pull-right">
 									
-										<button type="button" class="btn btn-success" style="padding-top: 5px;" onclick="fmSubmit.pageMoveFn('write')">글쓰기</button>
+										<button type="button" class="btn btn-success" onclick="fmSubmit.pageMoveFn('write')">글쓰기</button>
 										</div>
 										<div class="clearfix"></div> 
 									</div>
