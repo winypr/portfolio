@@ -56,13 +56,12 @@
 	
 		// left 메뉴 하이라이트 메소드
 		activeFn : function(id) {
-			console.log("${pageContext}")
+		
 			// 하이라이트를 줄 위치 정하기	
 			var paramName = "",
 				category  = "",
 				pathName = window.location.pathname,
 				pathNameArr = pathName.split("/");
-				console.log(pathNameArr)	
 			
 			if (pathNameArr[pathNameArr.length-1].indexOf(".do") < 0) 
 				paramName = "main"

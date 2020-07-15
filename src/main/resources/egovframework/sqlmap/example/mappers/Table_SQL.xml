@@ -3,6 +3,7 @@
 <mapper namespace="egovframework.example.table.service.impl.TableMapper">
 
 	<select id="selectPieChartServiceList" resultType="egovMap">
+	 
 		select category as labels
 			 , round(count(category) / (select count(ST.TABLE_NO) from t_portfolio as ST) * 100) series
 		  from t_portfolio
@@ -27,13 +28,14 @@
 	</select>
 	
 	<select id="selectTableServiceList" parameterType="egovMap" resultType="egovMap">
-		select 	@ROWNUM:= @ROWNUM + 1 no 
+		<include refid="CmmnPaging.getPageTop" />
+		select 	@R_NO := @R_NO + 1 RNUM
 				,pt.category
 				,pt.title
 				,DATE_FORMAT(pt.dp_strt_dt,'%Y-%m-%d') as dp_strt_dt
 				,DATE_FORMAT(pt.dp_end_dt,'%Y-%m-%d') as dp_end_dt
 				,pt.place
-		from 	 t_portfolio as pt, (SELECT @ROWNUM:=0) R
+		from 	 t_portfolio as pt, (SELECT @R_NO :=0) ROWS_VARIABLE
 		 <where>
 		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(title)">
 			<choose>
@@ -71,7 +73,7 @@
         </choose>
            
 		</where> 
-		
+		   <include refid="CmmnPaging.getPageBottom" />
 	 </select>
 
 

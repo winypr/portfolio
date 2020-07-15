@@ -12,12 +12,12 @@ var loginData = {
 		urPw : ""		
 }
 
-$(function(){
+function loginClickFn() {
+	
 	$(".login button").click(function() {
 		
 		loginData.urId = $("input[name='inputId']").val()
 		loginData.urPw = $("input[name='inputPassword']").val()
-		console.log(loginData);
 		
 		for (i in loginData) {
 			if (loginData[i] === "") {
@@ -33,22 +33,23 @@ $(function(){
 			type : "post",
 			success : function(d) {
 				if (d.result==="FAIL") alert("아이디 혹은 비밀번호가 틀렸습니다.")
-				else {
-					alert("로그인 되었습니다.")
-					location.href = "/main.do"
-				}
 				
+				else {
+					var backPage = document.referrer 
+					
+					alert("로그인 되었습니다.")
+					location.href = (backPage.indexOf("signup") > 0) ? "/main.do" :  backPage;
+					
+				}	
 			}
-			
 		}) 
-		
-		
-	})
+	})	
+}
+
+$(function(){
 	
-	
+	 loginClickFn();
 })
-
-
 </script>
 
 
@@ -82,13 +83,7 @@ $(function(){
 							
 							<!-- Remember me checkbox and sign in button -->
 							<div class="form-group">
-								<div class="col-lg-9 col-lg-offset-3">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox"> Remember me
-										</label>
-									</div>
-								</div>
+								
 								<div class="col-lg-9 col-lg-offset-3">
 									<button type="button" class="btn btn-danger">Sign in</button>
 									

@@ -19,7 +19,7 @@ public interface LoginMapper {
 
 	int selectUserServiceList(Map<String, Object> paramMap) throws Exception;
 
-	Map<String, Object> selectUserLoginServiceList(Map<String, Object> paramMap) throws Exception;
+	List<EgovMap> selectUserLoginServiceList(Map<String, Object> paramMap) throws Exception;
 	
 
 

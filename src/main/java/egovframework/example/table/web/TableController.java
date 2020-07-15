@@ -41,8 +41,6 @@ public class TableController {
 			// TODO: handle exception
 		}
 		
-		
-		
 		return "table/"+ map.get("subMenu") +".tiles";
 	}
 	

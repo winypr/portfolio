@@ -24,15 +24,13 @@ var tabClickFn = {
 	menuClickFn : function() {
 		
 		var tabPageName = $(this).text();
-		var chk = 0; 
 		
-		 for (var i = 0; i < CmmnField.tabArr.length; i++ ){
+			if (CmmnField.tabArr.length > 4 ) {
 			
-			if (CmmnField.tabArr[i] === tabPageName ) chk++
-			
-		} 
-		 
-			if (chk === 0 && CmmnField.tabArr.length < 5) {
+				alert("탭은 5개까지 만들 수 있습니다.")
+				return;
+				
+			} else {
 				
 				// 탭 셍성
 				createC.createHtmlFn.call(this)
@@ -40,8 +38,6 @@ var tabClickFn = {
 				//탭 페이지 호출
 				ajaxTab(tabPageName);
 				
-			} else {
-				if(CmmnField.tabArr.length > 5) alert("탭은 5개까지 만들 수 있습니다.")
 			}
 			
 			// 탭 하이라이트 처리

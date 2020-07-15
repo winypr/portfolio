@@ -69,6 +69,7 @@ function pieChartFn() {
 	$(function() {
 		chart.pieChart();
 		chart.barChart();	
+		
 	});
 </script>
 
@@ -156,6 +157,18 @@ function pieChartFn() {
 								</table>
 							</div>
 						</div>
+						
+						<div class="widget-foot">
+										<ul class="pagination pull-left"> 
+										
+										  <c:forEach var="btnList" begin="1" end="${tableList[0].totPage}">
+										 <li><a href="#"><c:out value="${btnList}"/></a></li>
+										 
+										  </c:forEach> 
+										</ul>
+										
+										<div class="clearfix"></div> 
+									</div>
 					</div>
 				</div>
 			</div>

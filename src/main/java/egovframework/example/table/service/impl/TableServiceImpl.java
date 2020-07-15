@@ -20,14 +20,18 @@ public class TableServiceImpl implements TableService {
 	@Override
 	public List<EgovMap> selectTableServiceList(Map<String, Object> paramMap) throws Exception {
 		
-		// TODO Auto-generated method stub
+		paramMap.put("rows", 5);
+		paramMap.put("page", 1);
+		
+		System.out.println(tableMapper.selectTableServiceList(paramMap));
+		
 		return tableMapper.selectTableServiceList(paramMap);
 	}
 
 	@Override
 	public List<EgovMap> selectPieChartServiceList() throws Exception {
 	
-		// TODO Auto-generated method stub
+		
 		return tableMapper.selectPieChartServiceList();
 	}
 

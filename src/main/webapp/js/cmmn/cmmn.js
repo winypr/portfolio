@@ -22,13 +22,39 @@ var Cmmn = (function() {
 		
 		return dataObj;
 	}
+	var _formatDate = function(format) {
+	    var year = format.getFullYear();
+	    var month = format.getMonth() + 1;
+	    var date = format.getDate();
+	    var hour = format.getHours();
+	    var min = format.getMinutes();
+	    var sec = format.getSeconds();
+	    
+	    if(month<10) month = '0' + month;
+
+	    if(date<10) date = '0' + date;
+
+	    return year + "-" + month + "-" + date ;
+	}
 	
 	return {
 
 		formToObj  	: _formToObj,
-		
+		formatDate : _formatDate
 	}	
 })();
+
+/**
+ * 로그인 공통 처리
+ */
+
+
+var loginField = {
+		urIdCookie : $.cookie("userId"),
+		urNmCookie : $.cookie("userNm")	
+	}
+
+
 
 /**
  * 초기화 공통 JS

@@ -7,73 +7,95 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>	
 
 <script>
+
+$(function() {
+	
+	signUpClick.init();
+	
+})
+
 var fieldC = {
 	
 	userInfo : ""		
 }
 
-
-$(function() {
+var signUpClick = {
 		
-	$(".sign-up input[name='inputId']").next().children("button").click(function() {
+	init: function() {
+		$(".sign-up input[name='inputId']").next().children("button").click(this, signUpFn.idChkFn)
 		
-		var inputId = $(".sign-up #inputId").val()
-		
-		if (inputId === "" ) {
-			alert ("아이디가 없습니다.")
-			return;
-		}
-		
-		
-		$.ajax({
+		$(".sign-up-account button").click(signUpFn.createAccountFn)
 			
-			url : "/ajaxIDCheck.do",
-			type : "post",
-			data : {"urId" : inputId},
-			dataType : "json",
-			success: function(d) {
-				if(d.result === "FAIL") {
-					alert("다른 사람이 사용중입니다. 다른 ID를 입력해주세요")
-					$(".sign-up #inputId").val("")
-				} else {
-					$("[for='inputId']").next().removeClass("hide");
-					$("input[name='idChk']").val(inputId)	
-				}
+		$("input[name='inputPWChk']").focusout(this, signUpFn.pwChkFn)
+	}
+}
 
+var signUpFn = {
+		
+		idChkFn : function() {
+			
+			var $input	= $(this).parents('div').children("input[name='inputId']"),
+				inputId = $input.val()
+				
+				console.log($(this));
+				
+			if (inputId === "" ) {
+				alert ("아이디가 없습니다.")
+				return;
 			}
-		})
+			
+			$.ajax({
+				
+				url : "/ajaxIDCheck.do",
+				type : "post",
+				data : {"urId" : inputId},
+				dataType : "json",
+				success: function(d) {
+					if (d.result === "FAIL") {
+						
+						alert("다른 사람이 사용중입니다. 다른 ID를 입력해주세요")
+						$input.val("")
+					
+					} else {
+						
+						$("[for='inputId']").next().removeClass("hide");
+						$("input[name='idChk']").val(inputId)	
+					}
+				}
+			})
+		},
+		
+		pwChkFn : function() {
+			
+			if ($("input[name='inputPW']").val() !== $(this).val()) {
+				alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
+				
+				$("input[name='inputPW']").val("");
+				$(this).val("");
+			
+			} else {
+				$("[for='inputPWChk']").next().removeClass("hide");
+			}	
+		},
+		
+		createAccountFn : function() {
 
-	})
-	
-	$(".sign-up-account button").click(function() {
-	
-		if (!checkfn()) return
-		
-		 $.ajax({
+			if (!checkfn()) return
 			
-			url : "/ajaxCreateAccout.do",
-			type : "post",
-			data : fieldC.userInfo,
-			dataType : "json",
-			success: function(d) {
-				if(d.result === "SUCCESS") alert("계정을 생성했습니다.")
-				location.href="/login.do"
-			} 
-		})
-	})
-	
-	$("input[name='inputPWChk']").focusout(function() {
+			 $.ajax({
+				
+				url : "/ajaxCreateAccout.do",
+				type : "post",
+				data : fieldC.userInfo,
+				dataType : "json",
+				success: function(d) {
+					if (d.result === "SUCCESS") alert("계정을 생성했습니다.")
+					location.href="/login.do"
+				} 
+			})
 			
-		if ($("input[name='inputPW']").val() !== $("input[name='inputPWChk']").val()) {
-			alert("비밀번호가 일치하지 않습니다. 비밀번호를 재확인해주세요.");
-			$("input[name='inputPW']").val("");
-			$("input[name='inputPWChk']").val("");
-		} else {
-			$("[for='inputPWChk']").next().removeClass("hide");
 		}
-		
-	}) 
-})
+}
 
 function checkfn() {
 	
@@ -82,6 +104,7 @@ function checkfn() {
 	var objData = fieldC.userInfo
 	
 	i = 0;
+	
 	for (i in objData)
 	{
 		if (typeof objData.idChk === "undefined" || objData.idChk != objData.inputId ) {

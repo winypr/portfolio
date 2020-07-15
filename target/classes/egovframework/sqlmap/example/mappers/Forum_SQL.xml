@@ -3,13 +3,15 @@
 <mapper namespace="egovframework.example.forum.service.impl.ForumMapper">
 
 	<select id="selectForumServiceList" parameterType="egovMap" resultType="egovMap">
-		select 	FM_NO
-				, FM_SUBJ
-				, FM_WRITER
-				, FM_CONTENT
-				, DATE_FORMAT(FM_DATE,'%Y-%m-%d %H:%i') as FM_DATE
-				, FM_VIEWS
-		from  t_fm_post
+		select 	post.FM_NO
+				, post.FM_SUBJ
+				, post.UR_ID
+				, user.ur_name as FM_WRITER
+				, post.FM_CONTENT
+				, DATE_FORMAT(post.FM_DATE,'%Y-%m-%d %H:%i') as FM_DATE
+				, post.FM_VIEWS
+		from  t_fm_post as post
+		left join t_user_list as user on post.ur_id = user.ur_id
 		
 		<where>
 		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
@@ -24,7 +26,7 @@
 	 	insert into t_fm_post
 	 	(
 			 FM_SUBJ
-			, FM_WRITER
+			, UR_ID
 			, FM_CONTENT
 			, FM_DATE
 	 	)
@@ -47,7 +49,6 @@
 	
 		 update t_fm_post
 		 set FM_SUBJ = #{forumTitle}
-			, FM_WRITER = #{forumName} 
 			, FM_CONTENT = #{forumContent} 
 		 
 		 where FM_NO = #{fmNo}
@@ -77,11 +78,13 @@
 	 
 	 <select id="selectForumReplyServiceList" parameterType="egovMap" resultType="egovMap">
 		<if test="@egovframework.example.cmmn.StringUtil@notEmpty(fmNo)">
-		select 	RP_NO
-				, RP_WRITER
-				, RP_CONTENT
-				, DATE_FORMAT(RP_DATE,'%Y-%m-%d %H:%i') as  RP_DATE
-		from  t_fm_reply
+		select 	reply.RP_NO
+				,reply.UR_ID
+				, user.ur_name as RP_WRITER
+				, reply.RP_CONTENT
+				, DATE_FORMAT(reply.RP_DATE,'%Y-%m-%d %H:%i') as  RP_DATE
+		from  t_fm_reply as reply
+		left join t_user_list as user on reply.ur_id = user.ur_id
 		where FM_NO = #{fmNo}
 		
 		</if>
@@ -93,7 +96,7 @@
 	 	insert into t_fm_reply
 	 	(
 			 FM_NO
-			, RP_WRITER
+			, UR_ID
 			, RP_CONTENT
 			, RP_DATE
 	 	)
@@ -101,7 +104,7 @@
 	 	value 
 	 	(
 	 	 #{fmNo}
-	 	,'SYSTEM'
+	 	,#{urId}
 	 	,#{rpContent} 
 	 	,NOW()
 	 	)

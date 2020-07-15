@@ -8,23 +8,19 @@
 <script>
 $(function() {
 	console.log("${forumView}")
-	initFn();
+	initInputFn();
 })
 
 var objData = {};
 
 function saveForum() {
-
 	
 	objData = Cmmn.formToObj("frmForum");
 	objData.editType = (objData.fmNo ==="") ? "insert": "update";
-	objData.forumName = "${sessionScope.sessionUN}"
-	console.log(objData)
+	objData.forumName = loginField.urIdCookie
 	
 	 if (!checkfn()) return ;
 	
-	
-	 
 	 $.ajax({
 	
 		url : "<c:url value='/ajaxForum.do'/>",
@@ -56,7 +52,7 @@ function checkfn() {
 	return true;	
 } 
 
-function initFn() {
+function initInputFn() {
 	
 	$("input[name=fmNo]").val("${forumView[0].fmNo}")
 	$("input[name=forumName]").val("${forumView[0].fmWriter}")

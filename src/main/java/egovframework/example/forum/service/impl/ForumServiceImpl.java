@@ -22,7 +22,7 @@ public class ForumServiceImpl implements ForumService {
 	@Override
 	public List<EgovMap> selectForumServiceList(Map<String, Object> paramMap) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println(paramMap.get("fmNo"));
+		
 		if (paramMap.containsKey("fmNo") == true && paramMap.get("fmNo")!="" ) {
 			forumMapper.updateForumViewsServiceList(paramMap);
 		}
@@ -66,6 +66,7 @@ public class ForumServiceImpl implements ForumService {
 	public String ajaxForumReplyServiceList(Map<String, Object> paramMap) throws Exception {
 		
 		Map<String, Object> resultMap = new HashMap<>();
+		System.out.println("Reply"+ paramMap);
 	
 		String editType = (String) paramMap.get("editType");
 
@@ -87,8 +88,4 @@ public class ForumServiceImpl implements ForumService {
 		
 	}
 
-	
-
-	
-	
 }

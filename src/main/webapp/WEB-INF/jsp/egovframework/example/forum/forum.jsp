@@ -11,8 +11,14 @@ var fmSubmit ={
 		
 	pageMoveFn : function(fmMenu) {
 		
-		$("#frm").attr("action", "/forum/"+fmMenu+".do");
+		if (typeof loginField.urIdCookie ==="undefined") {
+			alert ("로그인해야만 글쓰기가 가능합니다.")
+			location.href = "/login.do"
+			return
+		} 
 		
+		$("#frm").attr("action", "/forum/"+fmMenu+".do");
+		$("#pageName").val(fmMenu);
 		$("#frm").submit();
 	}
 		
@@ -30,10 +36,10 @@ function clickEventFn() {
 	})	
 }
 	
-	$(function() {
-	
-		clickEventFn()
-	})
+$(function() {
+
+	clickEventFn()
+})
 	 
 	
 </script>

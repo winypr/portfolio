@@ -1,21 +1,20 @@
 package egovframework.example.login.web;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import egovframework.example.cmmn.JsonUtil;
 import egovframework.example.login.service.LoginService;
-import egovframework.rte.psl.dataaccess.util.EgovMap;
+
 
 
 @Controller
@@ -34,6 +33,20 @@ public class LoginController {
 	public String initLogin() throws Exception {
 
 		return "login/signIn.login";
+	}
+	
+	@RequestMapping(value = "/logout.do")
+	public String initLogout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Cookie[] cookie = request.getCookies();
+
+		    for(int i=0; i < cookie.length; i++){
+
+		    	cookie[i].setMaxAge(0);
+
+		        response.addCookie(cookie[i]);
+		    }
+		return null;
 	}
 	
 	
@@ -55,20 +68,9 @@ public class LoginController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/ajaxLogin.do")
-	public String initAjaxLogin(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpSession session) throws Exception {
-		
-		Map<String, Object> resultMap = JsonUtil.JsonToMap(loginService.ajaxLoginServiceList(paramMap));
-		
-		if (resultMap.get("result").equals("SUCCESS")) {
-			session = request.getSession(true);
-			
-			session.setAttribute("sessionUN", resultMap.get("urName"));
-			
-			String urNameStr = (String) session.getAttribute("sessionId");
-			System.out.println(urNameStr);
-		}
+	public String initAjaxLogin(@RequestParam Map<String, Object> paramMap, HttpServletResponse response ) throws Exception {
 		
 		
-		return loginService.ajaxLoginServiceList(paramMap);
+		return loginService.ajaxLoginServiceList(paramMap, response);
 	}
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!--  페이징 공통  -->
+	<mapper namespace="CmmnPaging">
+	
+	<!--  페이징 공통 TOP -->
+	<sql id="getPageTop">
+		SELECT OUTER_TBL.*
+	  		  FROM (
+				SELECT INNER_TBL.*
+		  			 , FLOOR((RNUM -1) / #{rows}) + 1 PAGE_NUMBER
+		  			 , CEIL(COUNT(1)  OVER() / #{rows}) TOT_PAGE
+		  			 , COUNT(1) OVER() TOT_CNT
+	  			FROM (
+	</sql>
+	
+	<!--  페이징 공통 Bottom -->
+	<sql id="getPageBottom">
+		) INNER_TBL
+  			) OUTER_TBL
+  		WHERE OUTER_TBL.PAGE_NUMBER = #{page}
+	</sql>
+
+</mapper>

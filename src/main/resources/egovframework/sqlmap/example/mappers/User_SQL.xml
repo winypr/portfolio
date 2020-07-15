@@ -29,9 +29,10 @@
 	 
 	 </select>
 	 
-	 <select id="selectUserLoginServiceList" parameterType="egovMap" resultType="map">
+	 <select id="selectUserLoginServiceList" parameterType="egovMap" resultType="egovMap">
 	 	SELECT COUNT(*) as count
 	 		   ,UR_NAME	
+	 		    ,UR_ID	
 	 	FROM t_user_list
 	 	WHERE UR_ID = #{urId}
 	 	AND UR_PW = #{urPw}

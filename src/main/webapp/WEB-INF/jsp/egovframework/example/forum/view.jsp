@@ -11,26 +11,16 @@ $(function() {
 	dataFn();
 	forumClick.postClick();
 	forumClick.replyClick();
-	
+	loginChk();
 })
-
-function dataFn(){
-	
-		$("#fmEdit").append("<input type='hidden'  name='fmNo' 		value=<c:out value='${forumView[0].fmNo}'/> />");
-		$("#fmEdit").append("<input type='hidden'  name='fmWriter' 	value=<c:out value='${forumView[0].fmWriter}'/> />");
-		$("#fmEdit").append("<input type='hidden'  name='fmSubj' 	value=<c:out value='${forumView[0].fmSubj}'/> />");
-		$("#fmEdit").append("<input type='hidden'  name='fmContent' value=<c:out value='${forumView[0].fmContent}'/> />");
-		$("#fmEdit").append("<input type='hidden'  name='editType' 	value=''/>");
-} 
-
 
 var forumClick = {
 		
 	postClick : function() {
 	
-		$(".fm-post > .btn-primary").click(clickC.editPostFn);
+		$(".fm-post > .btn-primary").click(clickPostC.editPostFn);
 		
-		$(".fm-post > .btn-danger").click(clickC.deletePostFn);
+		$(".fm-post > .btn-danger").click(clickPostC.deletePostFn);
 		
 		$(document).on('click','.reply > .btn-success', this, clickReplyC.saveReplyFn);
 	
@@ -55,20 +45,8 @@ var forumClick = {
 		})
 	}
 }
-
-function createReplyFn(replyInfo) {
+var clickPostC = {
 	
-	replyInfo.$that.empty()
-	replyInfo.$that.append('<input type="hidden" id="rpEditNo" name="rpEditNo" value=' + replyInfo.rpEditNo +'>')
-	replyInfo.$that.append('<div class="recent-meta">Posted on 2020-07-12 15:59 by SYSTEM</div>')
-	replyInfo.$that.append('<div class="text-area"><textarea name="input" id="fmReplyEdit" class="form-control col-lg-12" placeholder="댓글을 남겨주세요">'+ replyInfo.editText +'</textarea><div class="clearfix"></div></div>')
-	replyInfo.$that.append('<div class="form-group reply"><button type="button" class="btn btn-success pull-right" style="padding-top: 5px;">등록</button></div>')
-	replyInfo.$that.append('<div class="clearfix"></div>') 
-	
-}
-
-var clickC = {
-		
 	editPostFn : function() {
 		
 		 $("#fmEdit").attr("action", "/forum/write.do")
@@ -104,7 +82,7 @@ var clickReplyC= {
 
 			var replyData = {
 				fmNo : "${forumView[0].fmNo}",
-				rpWriter : "system",
+				urId : loginField.urIdCookie,
 				rpContent : replyText,
 				rpNo	  : rpEditNo,
 				editType  : "" 
@@ -146,39 +124,66 @@ var clickReplyC= {
 				}
 			})
 		}	
-}		
+}	
 
-/* var editHtml = {
-		
-		appendFn : function() {
+function createReplyFn(replyInfo) {
+	
+	replyInfo.$that.empty()
+	replyInfo.$that.append('<input type="hidden" id="rpEditNo" name="rpEditNo" value=' + replyInfo.rpEditNo +'>')
+	replyInfo.$that.append('<div class="recent-meta">Posted on 2020-07-12 15:59 by SYSTEM</div>')
+	replyInfo.$that.append('<div class="text-area"><textarea name="input" id="fmReplyEdit" class="form-control col-lg-12" placeholder="댓글을 남겨주세요">'+ replyInfo.editText +'</textarea><div class="clearfix"></div></div>')
+	replyInfo.$that.append('<div class="form-group reply"><button type="button" class="btn btn-success pull-right" style="padding-top: 5px;">등록</button></div>')
+	replyInfo.$that.append('<div class="clearfix"></div>') 
+	
+}
 
-			<c:forEach var="forumView" items="${forumView}" varStatus="status">
-				
-				$("input[name=fmNo]").val("${forumView.fmNo}")
-				$("input[name=forumName]").val("${forumView.fmWriter}")
-				$("input[name=forumTitle]").val("${forumView.fmSubj}")
-				$("textarea[name=forumContent]").text("${forumView.fmContent}")
-			</c:forEach>
-			
-		}
-	} 
+function dataFn(){
+	
+	$("#fmEdit").append("<input type='hidden'  name='fmNo' 		value=<c:out value='${forumView[0].fmNo}'/> />");
+	$("#fmEdit").append("<input type='hidden'  name='fmWriter' 	value=<c:out value='${forumView[0].fmWriter}'/> />");
+	$("#fmEdit").append("<input type='hidden'  name='fmSubj' 	value=<c:out value='${forumView[0].fmSubj}'/> />");
+	$("#fmEdit").append("<input type='hidden'  name='fmContent' value=<c:out value='${forumView[0].fmContent}'/> />");
+	$("#fmEdit").append("<input type='hidden'  name='editType' 	value=''/>");
+} 
 
-	function editfn() {
-		
-		 $.ajax({
-			url : "/forum/edit.do" ,
-			//data : 	test.substring(1,test.length-1),
-			dataType : "text",
-			type : "post",
-			success : function(d) {
-			
-				$('.temp').children().remove()// console.log(d);
-				$('.temp').append(d);
-				editHtml.appendFn();
-			}
-		}); 
+function loginChk() {
+
+	if (loginField.urIdCookie !== "${forumView[0].urId}" ) {
+		forumView.postView()
+		forumView.replyView()
+	}
+
+	 $(".replyList .widget-foot .btn-group").each(function(){
 		 
-	} */
+		var $replyListBtn = $(this).parent();
+		
+		if (loginField.urIdCookie !== $replyListBtn.children("input[name='rpUrId']").val()){
+			
+			forumView.replyListView.call($replyListBtn.children(".btn-group"))	
+		}
+	}) 
+	
+}
+
+var forumView = {
+		
+	postView : function() {
+		$(".fm-post").addClass("hide")
+		
+	},
+	
+	replyView : function() {
+		var nowDate = new Date();
+	
+		$(".replyList .widget-content .recent-meta").text("Posted on " + Cmmn.formatDate(nowDate) + " by " + loginField.urNmCookie)
+	},
+	
+	replyListView : function() {
+		$(this).addClass("hide")
+	}
+		
+}
+
 
 </script>
 
@@ -208,24 +213,24 @@ var clickReplyC= {
 					<div class="widget-content forum-view">
 						<!-- Widget content -->
 						<div class="padd forumView">
-						<c:forEach items="${forumView}" var="forumViewVar" 	varStatus="status"> 
+						
 							<div class="recent-content">
 								<div class="subj recent-meta">
-									<h5><c:out value="${forumViewVar.fmSubj}" /> </h5>
+									<h5><c:out value="${forumView[0].fmSubj}" /> </h5>
 								</div>
 								<hr>
 								<div class="recent-meta date" >
 									<h6>
-										<c:out value="${forumViewVar.fmDate}" /> by <b><c:out value="${forumViewVar.fmWriter}" /></b>
-										<span class="pull-right">조횟수 <c:out value="${forumViewVar.fmViews}" /></span> 
+										<c:out value="${forumView[0].fmDate}" /> by <b> <c:out value="${forumView[0].fmWriter}" /></b>
+										<span class="pull-right">조횟수 <c:out value="${forumView[0].fmViews}" /></span> 
 									</h6>
 									</span>
 								</div>
 								<hr>
-								<div class="content"><c:out value="${forumViewVar.fmContent}" /> </div>
+								<div class="content"><c:out value="${forumView[0].fmContent}" /> </div>
 								<div class="clearfix"></div>
 							</div>
-					</c:forEach> 
+					
 						</div>
 					</div>
 					<!-- Widget footer -->
@@ -256,7 +261,7 @@ var clickReplyC= {
 										
 									<div class="padd">
 									
-										<div class="recent-meta">Posted on 25/1/2120 by <c:out value='${sessionScope.sessionUN}'/></div>
+										<div class="recent-meta"></div>
 										<div class="text-area">
 											<!-- Add the "cleditor" to textarea to add CLeditor -->
 											<textarea name="input" id="fmReply" class="form-control col-lg-12" placeholder="댓글을 남겨주세요"></textarea>
@@ -278,6 +283,7 @@ var clickReplyC= {
 											<li>
 												<div class="recent-content">
 													<input type="hidden" id="rpNo" name="rpNo" value="<c:out value='${replyList.rpNo}'/>"/>
+													<input type="hidden" id="rpUrId" name="rpUrId" value="<c:out value='${replyList.urId}'/>"/>
 													<div class="recent-meta">Posted on <c:out value="${replyList.rpDate}"/> by <c:out value="${replyList.rpWriter}"/></div>
 													<div><c:out value="${replyList.rpContent}"/>
 													</div>

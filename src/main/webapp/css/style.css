@@ -1,5 +1,4 @@
 
-
 #tabList li > a {
   
   	border: 0px solid;
@@ -31,9 +30,9 @@
 }
 
 .tab-menu {
-	border-top-width: 1px; 
-	border-top-color: rgb(221, 221, 221); 
-	border-top-style: solid;
+	
+	border : 1px solid #ddd !important;
+	
 }
 
 .sign-up .input-group[class*="col-"] {
@@ -42,6 +41,24 @@
     padding-right: 15px !important;
 }
 
+.nav div, .nav div>a {
+	font-size: 13px !important;
+    color: #fff !important;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+     display: inline-block !important;
+}
 
+.navbar{
+	border-bottom: 0px !important;
+}
 
+.navbar .hide{
+	display : none !important;
+}
 
+.nav div>a:hover {
+	
+	color: #666!important;
+}
